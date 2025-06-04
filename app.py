@@ -177,4 +177,6 @@ if st.session_state.analysis_done:
             st.plotly_chart(fig, use_container_width=True)
 
 elif not st.session_state.portfolio:
-    st.info("종목을 목록에 추가한 후, '분석 실행' 버튼을 눌러주세요.")
+    st.info("목록에 추가 버튼을 누르면 포트폴리오가 추가됩니다.")
+    st.info("이후 보유 종목을 입력하면 추가로 내 포트폴리오를 추가합니다.")
+    st.info("포트폴리오를 구성한 후 분석 실행 버튼을 눌러주세요. 최대 15개 종목까지 분석할 수 있습니다.")
