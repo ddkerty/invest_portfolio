@@ -193,5 +193,6 @@ if st.session_state.portfolio:
                         fig.update_layout(margin=dict(l=20, r=20, t=20, b=20), paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)')
                         st.plotly_chart(fig, use_container_width=True)
 
+# 포트폴리오에 종목이 하나도 없을 때 안내 메시지 표시
 else:
     st.info("좌측 상단의 사이드바에서 API 사용 현황을 확인하고, 종목을 추가하여 분석을 시작하세요.")
