@@ -1,4 +1,4 @@
-# app.py (초간결 버전)
+# app.py
 
 import streamlit as st
 import pandas as pd
@@ -27,7 +27,7 @@ div[data-testid="stVerticalBlock"] > [data-testid="stHorizontalBlock"] > [data-t
 st.markdown(f"<style>{css_string}</style>", unsafe_allow_html=True)
 
 
-# --- 세션 상태 초기화 (포트폴리오 목록만!) ---
+# --- 세션 상태 초기화 ---
 if 'portfolio' not in st.session_state:
     st.session_state.portfolio = []
 if 'analysis_done' not in st.session_state:
@@ -36,7 +36,7 @@ if 'results' not in st.session_state:
     st.session_state.results = {}
 
 # --- 앱 제목 및 UI ---
-st.title("💡 미국주식 포트폴리오 분석기")
+st.title("💡 My 포트폴리오 분석기")
 st.markdown("종목, 보유 수량, 평균 매수 단가를 목록에 추가하고, '분석 실행' 버튼을 눌러주세요.")
 
 # --- 1. 포트폴리오 구성 ---
@@ -136,9 +136,14 @@ if st.session_state.analysis_done:
             purchase_cost = item['avg_price'] * item['quantity']
             profit_loss = value - purchase_cost
             return_rate = (profit_loss / purchase_cost) * 100 if purchase_cost > 0 else 0
+            
+            # 🐞 BUG FIX: item['ticker'] -> stock.get('symbol') 로 수정
             display_data.append({
-                "티커": item['ticker'], "현재가": current_price, "평가액": value,
-                "수익률(%)": return_rate, "평가 손익": profit_loss
+                "티커": stock.get('symbol'), 
+                "현재가": current_price, 
+                "평가액": value,
+                "수익률(%)": return_rate, 
+                "평가 손익": profit_loss
             })
         df_detail = pd.DataFrame(display_data)
         st.dataframe(df_detail, use_container_width=True, hide_index=True,
@@ -172,6 +177,4 @@ if st.session_state.analysis_done:
             st.plotly_chart(fig, use_container_width=True)
 
 elif not st.session_state.portfolio:
-    st.info("종목을 입력 후 추가버튼을 누르면 포트폴리오가 추가됩니다.")
-    st.info("포트폴리오 추가가 완료되면 '실행' 버튼을 눌러주세요.")
-    st.info("포트폴리오 분석은 최대 15개 종목까지 가능합니다.")
+    st.info("종목을 목록에 추가한 후, '분석 실행' 버튼을 눌러주세요.")
